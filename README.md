@@ -3,55 +3,33 @@
 Мой Neovim на базе [LazyVim](https://lazyvim.github.io), настроенный под C#/.NET + TypeScript/React
 и горячие клавиши как в Visual Studio.
 
-## Установка с нуля (macOS)
+## Установка на любой машине (macOS / Linux)
 
-### 1. Инструменты
-
-```bash
-brew install neovim git ripgrep fd lazygit fzf node tree-sitter-cli
-brew install --cask font-jetbrains-mono-nerd-font   # иконки в интерфейсе
-```
-
-- `ripgrep`, `fd`: поиск файлов и текста
-- `lazygit`: git-интерфейс (`Space g g`)
-- `node`: нужен языковым серверам TypeScript/ESLint
-- Nerd Font: без него вместо иконок будут квадратики. Выбери шрифт в терминале:
-  Warp → Settings → Appearance → Font → `JetBrainsMono Nerd Font`.
-
-### 2. .NET SDK
-
-Скачай `.pkg` для **Arm64** с https://dotnet.microsoft.com/download и установи двойным кликом.
-Проверь:
+Одна команда в терминале:
 
 ```bash
-dotnet --list-sdks
+bash <(curl -fsSL https://raw.githubusercontent.com/mrviduus/nvim-config/main/install.sh)
 ```
 
-### 3. Сохрани старый конфиг (если есть)
+Потом открой **новый** терминал и запусти `nvim`. Языковые серверы доустановятся при первом
+запуске (1–2 минуты), проверка: `:Mason`.
 
-```bash
-mv ~/.config/nvim ~/.config/nvim.bak
-mv ~/.local/share/nvim ~/.local/share/nvim.bak
-mv ~/.local/state/nvim ~/.local/state/nvim.bak
-mv ~/.cache/nvim ~/.cache/nvim.bak
-```
+Что делает [`install.sh`](install.sh), по шагам:
+1. Ставит [Homebrew](https://brew.sh), если его нет (на macOS может спросить пароль).
+2. Ставит `neovim git ripgrep fd lazygit fzf node tree-sitter-cli`, на Mac ещё шрифт JetBrainsMono Nerd Font.
+3. Ставит .NET 10 SDK в `~/.dotnet` (без sudo), если `dotnet` ещё нет, и прописывает PATH в `~/.zshrc`/`~/.bashrc`.
+4. Если в `~/.config/nvim` лежит чужой конфиг, переименовывает его в `*.bak.<дата>` (ничего не удаляет)
+   и клонирует этот репо.
+5. Скачивает плагины ровно тех версий, что в `lazy-lock.json`.
 
-### 4. Склонируй этот репо
+Скрипт можно запускать повторно: уже установленное пропускается, конфиг обновляется через `git pull`.
 
-```bash
-git clone git@github.com:mrviduus/nvim-config.git ~/.config/nvim
-```
+**Шрифт в терминале.** Скрипт ставит шрифт, но выбрать его нужно самому, иначе вместо иконок будут
+квадратики: Warp → Settings → Appearance → Font → `JetBrainsMono Nerd Font`.
 
-### 5. Первый запуск
+**Обновить конфиг на другой машине:** `git -C ~/.config/nvim pull`, затем в nvim `:Lazy restore`.
 
-```bash
-nvim
-```
-
-Подожди 1–2 минуты, пока всё установится (плагины, затем языковые серверы через Mason).
-Проверка: `:checkhealth` и `:Mason` (у `omnisharp`, `vtsls`, `csharpier`, `netcoredbg` должны стоять ✓).
-
-### 6. Клавиши F1–F12 на Mac
+### Клавиши F1–F12 на Mac
 
 По умолчанию F-клавиши управляют яркостью и громкостью. Либо жми **Fn+F5**, либо включи:
 System Settings → Keyboard → Keyboard Shortcuts → Function Keys →
