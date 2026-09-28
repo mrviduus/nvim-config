@@ -55,7 +55,8 @@ else
 fi
 
 say "Plugins (first run takes a minute)"
-nvim --headless "+Lazy! restore" +qa
+nvim --headless "+Lazy! restore" +qa || true
+echo "(Messages about mason/treesitter installs being aborted are fine: they finish on first launch.)"
 
 say "Done"
 echo "Open a new terminal (or: source $RC), then run: nvim"
