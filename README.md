@@ -604,6 +604,11 @@ C#/.NET, TypeScript/React, JSON, YAML, Docker, ESLint, Prettier, debugger.
 
 VS-style keys: [`lua/config/keymaps.lua`](lua/config/keymaps.lua).
 
+C# debugging on Apple Silicon uses a native arm64 `netcoredbg` from
+[Cliffback/netcoredbg-macOS-arm64.nvim](https://github.com/Cliffback/netcoredbg-macOS-arm64.nvim)
+([`lua/plugins/netcoredbg.lua`](lua/plugins/netcoredbg.lua)): the one Mason installs is x86_64 and hangs.
+Other systems use Mason's.
+
 ---
 
 ## Troubleshooting
@@ -616,7 +621,7 @@ VS-style keys: [`lua/config/keymaps.lua`](lua/config/keymaps.lua).
 | No autocomplete | `:Mason`: the language needs a ✓; if not, select it and press `i` |
 | `Ctrl+.` or `Ctrl+Shift+F` don't work | your terminal grabs them: use `Space c a` and `Space /` |
 | `Alt+J` / `Alt+K` don't work (Mac) | set Option as Meta in your terminal settings |
-| C# debugging (F5) won't start on Apple Silicon | `netcoredbg` may fail to install via Mason; check `:Mason` |
+| F5 asks for `ASPNETCORE_ENVIRONMENT` / `URL` | put them in a `.env` file in the folder you opened nvim in, or just press Enter to accept the defaults |
 | Something broke after an update | `:Lazy restore` rolls plugins back to `lazy-lock.json` |
 | General health check | `:checkhealth` |
 | Stuck and confused | `Esc`, then `:q!` Enter (quit without saving) |
