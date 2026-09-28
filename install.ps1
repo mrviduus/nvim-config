@@ -27,8 +27,8 @@ $packages = @(
 )
 foreach ($p in $packages) {
     winget install --id $p -e --silent --accept-package-agreements --accept-source-agreements
-    # -1978335189 = already installed; anything else non-zero is a real failure
-    if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne -1978335189) { throw "winget failed on $p ($LASTEXITCODE)" }
+    # -1978335189 = no newer version, -1978335135 = already installed; anything else is a real failure
+    if ($LASTEXITCODE -notin 0, -1978335189, -1978335135) { throw "winget failed on $p ($LASTEXITCODE)" }
 }
 Refresh-Path
 npm install -g tree-sitter-cli
