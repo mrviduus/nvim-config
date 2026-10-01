@@ -55,6 +55,10 @@ else
 fi
 
 say "Plugins (first run takes a minute)"
+# On a fresh clone lazy.nvim installs missing plugins at startup at their latest commit and rewrites
+# lazy-lock.json before `restore` runs, so restore has nothing to do. Put the lockfile back and restore again.
+nvim --headless "+Lazy! restore" +qa || true
+git -C "$DEST" checkout -- lazy-lock.json
 nvim --headless "+Lazy! restore" +qa || true
 echo "(Messages about mason/treesitter installs being aborted are fine: they finish on first launch.)"
 
